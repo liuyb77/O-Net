@@ -13,10 +13,8 @@ from model.loss import *
 from model.load_param_data import  load_dataset, load_param
 
 # model
-from model.model_DNANet import  Res_CBAM_block
-from model.model_DNANet import  DNANet,ONet3gaigai,ONet3gaigaifr,ONet3gaigaifrgai,ONet3gaigaifrgai2,ONet3gaigaifrgai3,ONet3gaigaifrgai3trans,DNANet2
-from model.improve import ResAT,ResAT2
-from model.improvezj import ResATZJ
+from model.model_ONet import  ONet
+from model.block import ResAT
 class Trainer(object):
     def __init__(self, args):
         # Initial
@@ -42,8 +40,8 @@ class Trainer(object):
         self.test_data  = DataLoader(dataset=testset,  batch_size=args.test_batch_size, num_workers=args.workers,drop_last=False)
 
         # Choose and load model (this paper is finished by one GPU)
-        if args.model   == 'DNANet':
-            model       = ONet3gaigaifrgai3(num_classes=1,input_channels=args.in_channels, block=ResAT, num_blocks=num_blocks, nb_filter=nb_filter, deep_supervision=args.deep_supervision)
+        if args.model   == 'ONet':
+            model       = ONet(num_classes=1,input_channels=args.in_channels, block=ResAT, num_blocks=num_blocks, nb_filter=nb_filter, deep_supervision=args.deep_supervision)
 
         model           = model.cuda()
         model.apply(weights_init_xavier)
@@ -59,11 +57,9 @@ class Trainer(object):
             for name, param in model.named_parameters():
                 param_count = param.numel()
                 total_params += param_count
-                #print(f"{name}: {param.size()} | Parameters: {param_count}")
 
             print(f"Total Parameters: {total_params}")
 
-        # 在模型初始化后调用该函数
         print_model_summary(model)
 
         self.model      = model

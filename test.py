@@ -16,7 +16,7 @@ from model.load_param_data import  load_dataset, load_param
 # Model
 from model.model_DNANet import  Res_CBAM_block
 from model.model_DNANet import  DNANet,ONet3gaigaifrgai3,ONet3gaigaifr,DNANet2
-from model.improve import ResAT,ResAT2
+from model.block import ResAT,ResAT2
 
 class Trainer(object):
     def __init__(self, args):
